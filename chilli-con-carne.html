@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chilli con Carne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: single readable column, a cook-from card. Steps are tickable; each carries a burner chip and cue rows (right / too hot / too cool). */
+:root {
+  --bg: #f3f4f5;          /* stainless, cool */
+  --surface: #ffffff;
+  --fg: #1d2226;
+  --muted: #5c666e;
+  --line: #d9dde0;
+  --accent: #b3261e;      /* chilli */
+  --flame: #2b5fd9;       /* gas-flame blue: heat */
+  --flame-soft: #e6edfc;
+  --ok: #1f7a4a; --ok-soft: #e4f3ea;
+  --hot: #b3261e; --hot-soft: #fbe8e6;
+  --cool: #6b5ba8; --cool-soft: #eeebf8;
+  --warn: #9a5b00; --warn-soft: #fbf0dc;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #f0675c; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540; --warn: #f2b45c; --warn-soft: #3a2a12;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #f0675c; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540; --warn: #f2b45c; --warn-soft: #3a2a12;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 2rem 4rem; display: grid; gap: 2.5rem; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 800; letter-spacing: -0.01em; }
+h1 span { color: var(--accent); }
+h2 { font-size: 1.45rem; font-weight: 800; display: flex; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0; }
+.sub { color: var(--muted); margin-top: .6rem; max-width: 60ch; }
+.eyebrow { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+section { display: grid; gap: 1rem; }
+.mono, td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* hob panel */
+.hob { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: .8rem; }
+.trap { border-left: 4px solid var(--accent); padding-left: .8rem; }
+.burners { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .7rem; }
+.burner { display: grid; gap: .2rem; padding: .7rem .8rem; background: var(--flame-soft); border-radius: 8px; min-width: 0; }
+.burner b { font-family: var(--font-display); color: var(--flame); }
+.burner small { color: var(--muted); font-size: .88rem; }
+ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; }
+
+/* tables */
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .97rem; }
+th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 500; }
+td.num { white-space: nowrap; font-weight: 500; }
+.note { color: var(--muted); font-size: .92rem; }
+.group { display: grid; gap: .5rem; }
+.group h3 small { font-family: var(--font-body); font-weight: 400; color: var(--muted); font-size: .9rem; }
+
+/* steps */
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; counter-reset: s; }
+ol.steps > li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; display: grid; gap: .6rem; transition: opacity .2s; }
+ol.steps > li.done { opacity: .45; }
+.head { display: flex; gap: .75rem; align-items: flex-start; }
+.head label { display: flex; gap: .75rem; align-items: flex-start; cursor: pointer; flex: 1; min-width: 0; }
+.head input { width: 1.3rem; height: 1.3rem; margin-top: .15rem; accent-color: var(--accent); flex: none; }
+.head input:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+.head .n::before { content: counter(s); font-family: var(--font-mono); color: var(--accent); font-weight: 500; margin-right: .4rem; }
+.chip { display: inline-flex; align-items: center; gap: .35rem; font-family: var(--font-mono); font-size: .78rem; color: var(--flame); background: var(--flame-soft); padding: .2rem .55rem; border-radius: 999px; width: fit-content; }
+.chip svg { width: .8rem; height: .8rem; fill: currentColor; }
+.cues { display: grid; gap: .35rem; }
+.cue { display: grid; grid-template-columns: 5.6rem 1fr; gap: .6rem; align-items: start; padding: .45rem .6rem; border-radius: 6px; font-size: .95rem; }
+.cue > span:first-child { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; padding-top: .2rem; font-weight: 500; }
+.cue.ok { background: var(--ok-soft); } .cue.ok > span:first-child { color: var(--ok); }
+.cue.hot { background: var(--hot-soft); } .cue.hot > span:first-child { color: var(--hot); }
+.cue.warn { background: var(--warn-soft); } .cue.warn > span:first-child { color: var(--warn); }
+.cue.cool { background: var(--cool-soft); } .cue.cool > span:first-child { color: var(--cool); }
+.test { border-left: 4px solid var(--flame); padding: .5rem .8rem; background: var(--flame-soft); border-radius: 0 6px 6px 0; font-size: .95rem; }
+.steps-sub { display: grid; gap: .45rem; }
+.reset { justify-self: start; font: inherit; font-size: .88rem; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: .35rem .7rem; cursor: pointer; }
+.reset:hover { color: var(--fg); }
+.reset:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+.log td:not(:first-child) { min-width: 7rem; height: 2.4rem; }
+@media (max-width: 420px) { .cue { grid-template-columns: 1fr; gap: .1rem; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.back { display: inline-block; margin-bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.back:hover { color: var(--fg); }
+.back:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+  <a class="back" href="index.html">← All recipes</a>
+    <div class="eyebrow">Serves ~4 · about 2 hours, mostly simmering · better the next day</div>
+    <h1>Chilli <span>con carne</span></h1>
+    <p class="sub">Brown the mince hard, cook the onions in its fat, and give it a long simmer. Every heat step comes with what to look and listen for, because "medium" means something different on every hob.</p>
+  </header>
+
+  <section aria-labelledby="kit">
+    <h2 id="kit">Kit and heat</h2>
+    <div class="hob">
+      <ul class="plain">
+        <li><b>A heavy-based pot of about 3 litres, with a lid.</b> A thick base spreads heat evenly, so the sauce doesn't catch. Stainless steel is best: the meat sticks a little and leaves brown residue on the base, and that residue becomes flavour. Non-stick browns less well and shouldn't go on high heat empty.</li>
+        <li><b>A bowl</b> for the browned mince, a <b>jug</b> for the sauce mix, and a <b>scale</b>. A small 0.1 g digital scale is ideal for the spices, but measuring spoons work too; both are given below.</li>
+        <li><b>Hobs vary a lot.</b> On some, the lowest setting of the biggest burner is still very hot. Go by the cues in each step, not by the knob position.</li>
+        <li><b>Burners:</b> brown and fry on a medium or large burner. Simmer on your smallest burner, on its lowest setting.</li>
+        <li><b>Electric, ceramic or induction:</b> the cues are the same. Ceramic and electric plates are slow to cool when you turn them down, so lift the pot off the heat for a moment if something is catching.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="ing">
+    <h2 id="ing">Ingredients</h2>
+    <div class="group">
+      <h3>Main</h3>
+      <div class="tbl"><table>
+        <tr><th>Ingredient</th><th>Amount</th></tr>
+        <tr><td>Beef mince, 20% fat</td><td class="num">500 g</td></tr>
+        <tr><td>Large onions (all red, or 1 red + 1 white)</td><td>2</td></tr>
+        <tr><td>Red pepper</td><td>1</td></tr>
+        <tr><td>Garlic, peeled</td><td>2 cloves</td></tr>
+        <tr><td>Fresh chillies</td><td>to taste (see below)</td></tr>
+        <tr><td>Tomato purée</td><td class="num">30–35 g (2 tbsp)</td></tr>
+        <tr><td>Chopped tomatoes</td><td class="num">400 g tin</td></tr>
+        <tr><td>Red kidney beans, drained and rinsed</td><td class="num">410 g tin</td></tr>
+        <tr><td>Salt</td><td>a good pinch with the onions, more to taste at the end</td></tr>
+        <tr><td>Black pepper</td><td>to taste, at the end</td></tr>
+      </table></div>
+      <p class="note"><b>Mince:</b> 20% fat is what makes this work. The fat it gives off cooks the onions, so there's no oil, and fattier mince stays tender through a long simmer. Lean mince dries out with long cooking; if that's all you have, add 1 tbsp of oil for the onions.</p>
+      <p class="note"><b>Chillies:</b> 2 large mild red chillies give a gentle heat. For more, add 1–2 small finger or bird's-eye chillies, which are much hotter. Most of a chilli's heat is in the white membrane inside, so leave it in for more heat or scrape it out for less.</p>
+    </div>
+    <div class="group">
+      <h3>Spice dish</h3>
+      <div class="tbl"><table>
+        <tr><th>Spice</th><th>Weight</th><th>Spoons</th></tr>
+        <tr><td>Ground cumin</td><td class="num">6.3 g</td><td>1 tbsp</td></tr>
+        <tr><td>Smoked paprika</td><td class="num">4.6 g</td><td>2 tsp (or 1 tbsp of plain paprika)</td></tr>
+        <tr><td>Hot chilli powder</td><td class="num">~4 g</td><td>1 heaped tsp (or 1 level tbsp if you only have mild)</td></tr>
+      </table></div>
+      <p class="note">Weighing on a scale: put a small dish on it, tare, add a spice, tare again before the next one. Spoon amounts are level standard spoons (5 ml teaspoon, 15 ml tablespoon), not cutlery.</p>
+    </div>
+    <div class="group">
+      <h3>Sauce jug</h3>
+      <div class="tbl"><table>
+        <tr><th>Ingredient</th><th>Weight</th><th>Spoons</th></tr>
+        <tr><td>Beef stock cube</td><td class="num">1</td><td>—</td></tr>
+        <tr><td>Brown sugar</td><td class="num">~4 g</td><td>1 tsp</td></tr>
+        <tr><td>Dried marjoram (or oregano)</td><td class="num">0.3 g</td><td>½ tsp</td></tr>
+        <tr><td>Boiling water</td><td class="num">275 g</td><td>275 ml (1 g of water = 1 ml)</td></tr>
+      </table></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="prep">
+    <h2 id="prep">Prep</h2>
+    <ol class="steps">
+      <li><div class="head"><label><input type="checkbox" id="p1"><span class="n"><b>Onions:</b> chop as finely as you can. Keep them in their own bowl, because they go in first.</span></label></div></li>
+      <li><div class="head"><label><input type="checkbox" id="p2"><span class="n"><b>Veg bowl:</b> chop the pepper, garlic and chillies into one bowl.</span></label></div></li>
+      <li><div class="head"><label><input type="checkbox" id="p3"><span class="n"><b>Spice dish:</b> measure out the three spices. They go in at the same time as the veg bowl.</span></label></div></li>
+      <li><div class="head"><label><input type="checkbox" id="p4"><span class="n"><b>Sauce jug:</b> stock cube, sugar and marjoram, then 275 ml of boiling water. Stir until dissolved; it tends to stick to the bottom. The purée doesn't go in here; it gets fried later.</span></label></div></li>
+      <li><div class="head"><label><input type="checkbox" id="p5"><span class="n"><b>Beans:</b> open, drain and rinse them now, or during the simmer.</span></label></div></li>
+      <li><div class="head"><label><input type="checkbox" id="p6"><span class="n">Have a <b>bowl</b> ready for the browned mince.</span></label></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="cook">
+    <h2 id="cook">Cooking</h2>
+    <ol class="steps">
+      <li>
+        <div class="head"><label><input type="checkbox" id="c1"><span class="n"><b>Preheat the pot.</b> Empty and dry, on high.</span></label></div>
+        <span class="chip"><svg viewBox="0 0 10 10"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Medium or large burner · high</span>
+        <div class="cues">
+          <div class="cue ok"><span>Ready</span><span>Flick in a few drops of water. They bead into balls and skate about. A thin layer of steam lifts them, which only happens at roughly 190 °C or more.</span></div>
+          <div class="cue cool"><span>Not yet</span><span>The drops hiss and spread flat. Wait and test again.</span></div>
+          <div class="cue warn"><span>Very hot</span><span>The drops skate very fast and vanish almost at once. Turn the heat down a little before the mince goes in.</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c2"><span class="n"><b>Brown the mince in two batches of about 250 g.</b> Put in half, press it flat, then leave it alone. It will stick at first. It lets go on its own once it has formed a crust, so don't scrape it loose.</span></label></div>
+        <span class="chip"><svg viewBox="0 0 10 10"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Same burner · high, or as the preheat set it</span>
+        <div class="cues">
+          <div class="cue ok"><span>Right</span><span>A loud, steady crackle; a dark brown crust underneath when you lift an edge (about 3–4 min). Then break it up and give it about 2 min more.</span></div>
+          <div class="cue cool"><span>Steaming</span><span>Quiet bubbling, liquid pooling. The pot is too full or not hot enough. Stop stirring and let the liquid boil off; the crackle comes back once it has.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>Smoke, or black bits.</span></div>
+        </div>
+        <div class="steps-sub">
+          <p class="test"><b>Smoke or steam?</b> You get a big burst of steam the moment the mince goes in. <b>Steam:</b> white, gone within a hand's width of the pot, no smell beyond cooking meat. Fine. <b>Smoke:</b> bluish-grey, drifts around the room, sharp acrid smell, can sting your eyes. Turn it down.</p>
+          <p>Why two batches: too much meat at once releases water faster than it can boil off, so the mince steams grey instead of browning. Tip each batch into the bowl and do the water-drop test again before the second. Keep any juice that collects in the bowl, as it all goes back in.</p>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c3"><span class="n"><b>Onions in the fat, with a good pinch of salt.</b> The salt draws water out of the onions so they soften faster. That moisture also loosens the brown residue on the base; scrape it up as you go, because that's flavour. Stir often.</span></label></div>
+        <span class="chip"><svg viewBox="0 0 10 10"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Same burner · well down; set by the cue</span>
+        <div class="cues">
+          <div class="cue ok"><span>Right</span><span>A soft fizz, small bubbles around the pieces; soft and translucent in 10–15 min.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>The edges brown in the first few minutes.</span></div>
+          <div class="cue cool"><span>Too cool</span><span>No sound at all.</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c4"><span class="n"><b>Check the fat.</b> If more than about 2 tbsp is pooled in the pot, spoon off the excess.</span></label></div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c5"><span class="n"><b>Veg and spices, about 5 min.</b> Add the veg bowl with the spice dish on top, both at once. Stir often. Most of the flavour in cumin and paprika dissolves in fat, not water, so cooking them here gets more out of them than adding them to the liquid would.</span></label></div>
+        <span class="chip"><svg viewBox="0 0 10 10"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Same burner, same heat</span>
+        <div class="cues">
+          <div class="cue ok"><span>Right</span><span>The smell of the spices blooms.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>The spices darken fast, or there's a sharp, acrid smell. Turn the heat down at once.</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c6"><span class="n"><b>Fry the purée, 1–2 min.</b> Stir it through. Frying caramelises it and gives more depth than stirring it into the stock.</span></label></div>
+        <div class="cues">
+          <div class="cue ok"><span>Right</span><span>It goes from bright red to a darker rust colour.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>Black patches.</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c7"><span class="n"><b>Combine.</b> Put the mince back in with its bowl juices. Add the chopped tomatoes. Pour a splash of the sauce jug into the empty tin, swirl it round and tip it in, then add the rest of the jug. That gets all the tomato out without adding extra water. Scrape the base as the liquid goes in.</span></label></div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c8"><span class="n"><b>Bring to a bubble, then cover and drop the heat.</b> Once it bubbles, put the lid on and move the pot to your smallest burner on its lowest setting.</span></label></div>
+        <span class="chip"><svg viewBox="0 0 10 10"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Smallest burner · lowest</span>
+        <p class="test"><b>Check again after 2 minutes.</b> A lid traps heat, so a gentle simmer can build into a boil.</p>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c9"><span class="n"><b>Simmer covered, 40 min.</b> Stir every 10 min or so.</span></label></div>
+        <div class="cues">
+          <div class="cue ok"><span>Right</span><span>Lift the lid to check: anything from a few lazy bubbles to steady bubbling is fine, as long as nothing catches on the base.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>The whole surface churning, the lid rattling, or the scorch check snags. Set the lid slightly ajar to let some heat escape as steam.</span></div>
+          <div class="cue cool"><span>Too cool</span><span>No bubbles at all.</span></div>
+        </div>
+        <div class="steps-sub">
+          <p><b>Scorch check</b> each time you stir: drag the spoon across the base. If it snags, or brown flakes come up smelling burnt, turn it down and don't scrape those bits in.</p>
+          <p class="note">It will look runny at this stage. A lidded pot loses little water; the next step thickens it.</p>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c10"><span class="n"><b>Beans in, lid off, until it passes the scrape test.</b> At least 15 min.</span></label></div>
+        <span class="chip"><svg viewBox="0 0 10 10"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Smallest burner · same, or up a little</span>
+        <div class="cues">
+          <div class="cue ok"><span>Done</span><span>Drag the spoon across the base: the gap stays open for 1–2 seconds.</span></div>
+          <div class="cue cool"><span>Not yet</span><span>The gap closes at once. Keep simmering and test again.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>It spatters out of the pot.</span></div>
+        </div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c11"><span class="n"><b>Taste and adjust.</b> Salt, then cumin, paprika and pepper as needed. The stock cube is already salty, so add salt a little at a time.</span></label></div>
+      </li>
+      <li>
+        <div class="head"><label><input type="checkbox" id="c12"><span class="n"><b>Rest.</b> Take it off the heat, put the lid on and leave it for 10–30 min before serving. It thickens as it cools and the flavours even out. It's even better the next day.</span></label></div>
+      </li>
+    </ol>
+    <button class="reset" id="reset" type="button">Clear all ticks</button>
+  </section>
+</div>
+
+<script>
+(function () {
+  var KEY = 'cookbook-chilli-ticks-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ol.steps input[type=checkbox]'));
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+  function paint(b) { b.closest('li').classList.toggle('done', b.checked); }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  boxes.forEach(function (b) {
+    b.checked = !!state[b.id]; paint(b);
+    b.addEventListener('change', function () { state[b.id] = b.checked; paint(b); save(); });
+  });
+  document.getElementById('reset').addEventListener('click', function () {
+    state = {}; boxes.forEach(function (b) { b.checked = false; paint(b); }); save();
+  });
+})();
+</script>
+
+</body>
+</html>

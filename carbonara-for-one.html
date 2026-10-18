@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carbonara for One</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Carbonara for one. Same format as the chilli page:
+   tickable steps, burner chips, cue rows (right / too hot / too cool). */
+:root {
+  --bg: #f3f4f5;
+  --surface: #ffffff;
+  --fg: #1d2226;
+  --muted: #5c666e;
+  --line: #d9dde0;
+  --accent: #b8860b;      /* yolk */
+  --flame: #2b5fd9;       /* gas-flame blue: heat */
+  --flame-soft: #e6edfc;
+  --ok: #1f7a4a; --ok-soft: #e4f3ea;
+  --hot: #b3261e; --hot-soft: #fbe8e6;
+  --cool: #6b5ba8; --cool-soft: #eeebf8;
+  --note-soft: #fdf6e3;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #e8b84a; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --note-soft: #2c2716;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #e8b84a; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --note-soft: #2c2716;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 2rem 4rem; display: grid; gap: 2.25rem; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0.5rem 0; }
+.lede { color: var(--muted); font-size: 1.1rem; margin-top: 0.6rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.pill { font-family: var(--font-mono); font-size: 0.8rem; padding: 0.25rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; }
+.callout { background: var(--note-soft); border-left: 4px solid var(--accent); border-radius: 10px; padding: 0.9rem 1rem; }
+.callout strong { font-family: var(--font-display); }
+
+table.ing { width: 100%; border-collapse: collapse; }
+table.ing td { padding: 0.55rem 0.25rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.ing tr:last-child td { border-bottom: 0; }
+table.ing td.qty { font-family: var(--font-mono); font-size: 0.92rem; white-space: nowrap; color: var(--accent); width: 7.5rem; }
+.sub { color: var(--muted); font-size: 0.92rem; display: block; }
+
+.kit { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.kit div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 0.85rem; }
+.kit b { font-family: var(--font-display); }
+.kit .wide { grid-column: 1 / -1; }
+
+ol.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.1rem; counter-reset: step; }
+ol.steps > li { counter-increment: step; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem 1.1rem; }
+.step.done { opacity: 0.55; }
+.step-head { display: flex; align-items: flex-start; gap: 0.75rem; }
+.step-head input { width: 1.4rem; height: 1.4rem; margin-top: 0.15rem; accent-color: var(--ok); flex: none; cursor: pointer; }
+.step-head label { cursor: pointer; flex: 1; }
+.step-head h3::before { content: counter(step) ". "; color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0.25rem 2.15rem; }
+.chip { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.2rem 0.55rem; border-radius: 6px; background: var(--flame-soft); color: var(--flame); border: 1px solid color-mix(in srgb, var(--flame) 30%, transparent); }
+.chip.off { background: transparent; color: var(--muted); border-color: var(--line); }
+.chip.time { background: transparent; color: var(--muted); border-color: var(--line); }
+.body { margin-left: 2.15rem; }
+.body ul { margin: 0.4rem 0; padding-left: 1.2rem; }
+.body li { margin: 0.25rem 0; }
+
+.cues { display: grid; gap: 0.4rem; margin-top: 0.75rem; }
+.cue { border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.95rem; display: grid; grid-template-columns: 5.6rem 1fr; gap: 0.5rem; }
+.cue b { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; padding-top: 0.2rem; }
+.cue.ok { background: var(--ok-soft); } .cue.ok b { color: var(--ok); }
+.cue.hot { background: var(--hot-soft); } .cue.hot b { color: var(--hot); }
+.cue.cool { background: var(--cool-soft); } .cue.cool b { color: var(--cool); }
+@media (max-width: 30rem) { .cue { grid-template-columns: 1fr; gap: 0.1rem; } .chips, .body { margin-left: 0; } }
+
+details.why { margin-top: 0.75rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+details.why summary { cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+details.why p { font-size: 0.95rem; }
+
+.rescue { display: grid; gap: 0.75rem; }
+.rescue .card h3 { margin-bottom: 0.25rem; }
+
+button.reset { font-family: var(--font-mono); font-size: 0.8rem; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 0.35rem 0.7rem; cursor: pointer; }
+.back { display: inline-block; margin-bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.back:hover { color: var(--fg); }
+.back:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <a class="back" href="index.html">← All recipes</a>
+  <h1>Carbonara for One</h1>
+  <p class="lede">Smoked streaky bacon, yolks only, Pecorino and Parmigiano. Every heat step comes with what to look and listen for, because "medium" means something different on every hob.</p>
+  <div class="meta">
+    <span class="pill">1 serving</span>
+    <span class="pill">~25 min</span>
+  </div>
+</header>
+
+<section class="callout">
+  <strong>The one thing that matters most.</strong> Egg yolk starts to set at roughly 65–70&nbsp;°C, so the pan has to be cooled before the egg goes in. A heavy pan (stainless steel or cast iron) holds a lot of heat, so it cools slowly. Step 7 cools it with a splash of pasta water, not by waiting. If in doubt, finish in a bowl.
+</section>
+
+<section>
+  <h2>Ingredients</h2>
+  <div class="card">
+    <table class="ing">
+      <tr><td class="qty">75 g</td><td>Spaghetti</td></tr>
+      <tr><td class="qty">3 rashers<br>(~60 g)</td><td>Smoked streaky bacon, cut into lardons about 1&nbsp;cm wide</td></tr>
+      <tr><td class="qty">2</td><td>Egg yolks<span class="sub">Fridge-cold is fine. Keep the whites for something else.</span></td></tr>
+      <tr><td class="qty">12 g + 13 g</td><td>Pecorino Romano + Parmigiano Reggiano, finely grated (25&nbsp;g total), plus a little extra to finish<span class="sub">Half and half is the default. All Pecorino is the Roman way: saltier and sharper.</span></td></tr>
+      <tr><td class="qty">2 g<br>(~¾ tsp)</td><td>Black pepper, freshly ground, plus more to finish</td></tr>
+      <tr><td class="qty">10 g<br>(~1¾ tsp)</td><td>Salt, for the pasta water<span class="sub">Less than usual: the bacon and Pecorino both bring salt.</span></td></tr>
+      <tr><td class="qty">1.5 L</td><td>Water, for the pasta</td></tr>
+      <tr><td class="qty">3 tbsp<br>(45 ml)</td><td>Water, for the bacon pan</td></tr>
+      <tr><td class="qty">1 tsp</td><td>Saved bacon fat <span class="sub">Optional: fat poured off from an earlier fry. Helps against sticking and makes up for UK bacon's low fat yield.</span></td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Kit and heat</h2>
+  <div class="kit">
+    <div><b>2.5–3 L pot</b> with lid, on your largest burner</div>
+    <div><b>Heavy frying pan</b>, stainless steel or cast iron, on a medium burner</div>
+    <div><b>Mug</b> for reserved pasta water</div>
+    <div><b>Small bowl + fork</b> for the egg mix</div>
+    <div><b>Tongs</b>, or a sieve</div>
+    <div><b>Wooden or silicone spatula</b> for the fond</div>
+    <div><b>A spare mixing bowl</b>, warmed with hot tap water, as the fallback in step 8</div>
+    <div class="wide"><b>Hobs vary a lot.</b> Go by the cues in each step, not by the knob position.</div>
+    <div class="wide"><b>Electric, ceramic or induction:</b> the cues are the same. Electric and ceramic rings stay hot after you turn them off, so whenever a step says the burner goes off, lift the pan off the ring as well.</div>
+  </div>
+</section>
+
+<section>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;">
+    <h2>Method</h2>
+    <button class="reset" id="reset" type="button">Clear ticks</button>
+  </div>
+  <ol class="steps">
+
+    <li><div class="step" data-step="1">
+      <div class="step-head"><input type="checkbox" id="s1"><label for="s1"><h3>Water on</h3></label></div>
+      <div class="chips"><span class="chip">largest burner · high</span><span class="chip time">~8–10 min to boil</span></div>
+      <div class="body">
+        <p>1.5&nbsp;L water in the pot, lid on. Don't salt it yet. Your biggest burner running hot is exactly what you want here.</p>
+      </div>
+      <details class="why"><summary>why this burner, why less water</summary>
+        <p>A big burner can be too fierce for frying, but boiling water can't overheat: it's capped at 100&nbsp;°C, so the extra heat just gets you there faster. Less water than usual means the starch the pasta sheds is more concentrated, and that starch is what holds the sauce together in step 8.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="2">
+      <div class="step-head"><input type="checkbox" id="s2"><label for="s2"><h3>Prep while it heats</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <ul>
+          <li>Cut the bacon into lardons, about 1&nbsp;cm wide.</li>
+          <li>Separate the yolks into the small bowl.</li>
+          <li>Grate both cheeses finely and add them to the yolks with the pepper. Mix with a fork into a thick, stiff paste. It loosens in step 6.</li>
+        </ul>
+      </div>
+      <details class="why"><summary>why grate finely</summary>
+        <p>Fine cheese melts into the egg in seconds. Coarse shreds take longer than the egg does to set, so they end up as stringy clumps.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="3">
+      <div class="step-head"><input type="checkbox" id="s3"><label for="s3"><h3>Bacon in a cold pan</h3></label></div>
+      <div class="chips"><span class="chip">medium burner · lowest</span><span class="chip time">~10–15 min total</span></div>
+      <div class="body">
+        <p>Lardons into the <em>cold</em> pan, with the 3&nbsp;tbsp water (and the saved fat, if using). Spread them out in one layer. Then turn on the burner.</p>
+        <p>It goes in two phases. First the water bubbles and the fat slowly turns translucent. When the water has gone, the sound changes from bubbling to sizzling, and now you're frying in rendered fat. Stir every minute or so.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>Soft bubbling, then a steady light sizzle, like light rain. The fat goes from white to translucent to golden. Fond on the base stays amber to mid-brown.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>A loud sizzle straight away, or the lean browning while the fat is still white and rubbery, or the fond darkening towards coffee, or a sharp smell. Lift the pan off for 20–30 seconds and add a splash of water.</span></div>
+          <div class="cue cool"><b>Too cool</b><span>Still silent, fat still white, after about 5 minutes. Nudge the heat up a little.</span></div>
+        </div>
+        <p><strong>Milky white foam early on is normal.</strong> That's brine from the cure, not a failure. Don't turn the heat up to chase it off.</p>
+        <p><strong>If lardons stick:</strong> a small splash of water at the edge of the pan, then scrape. It dissolves the sugary brine that glues them down.</p>
+      </div>
+      <details class="why"><summary>why the water and the cold start</summary>
+        <p>Water can't get hotter than 100&nbsp;°C, so while it's in the pan it holds the bacon at a temperature where fat melts out but the meat doesn't brown fast. That gives the fat time to render before the lean dries out. The sound change is your signal that the cap has gone. Wet-cured UK bacon leaks brine with sugar in it. When the water boils off, that dries into a glue under the meat, which is why it sticks and why water releases it. Stirring lardons stops the glue setting in one place.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="4">
+      <div class="step-head"><input type="checkbox" id="s4"><label for="s4"><h3>Pasta in once the bacon is sizzling</h3></label></div>
+      <div class="chips"><span class="chip">largest burner · high</span><span class="chip time">packet time minus 1 min</span></div>
+      <div class="body">
+        <p>When the bacon has switched from bubbling to sizzling, salt the boiling water and add the spaghetti.</p>
+        <p>The strands will stick out of the pot at first. After 30–60 seconds the part under the water softens. Push the ends down with a spoon or tongs so the strands bend round the pot, then stir so they don't stick together. Stir again a couple of times in the first two minutes.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>A rolling boil: big bubbles that keep going when you stir. Taste the water: noticeably salty, but less so than the sea.</span></div>
+          <div class="cue hot"><b>Boiling over</b><span>Starchy foam rising to the rim. Lid off and turn down a touch. It only needs to keep boiling.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why this timing</summary>
+        <p>The bacon takes longer than the pasta, and it's happy to wait off the heat. The pasta isn't. Starting the pasta once the bacon is sizzling means the bacon finishes first and the pasta is never kept waiting.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="5">
+      <div class="step-head"><input type="checkbox" id="s5"><label for="s5"><h3>Bacon done, burner off</h3></label></div>
+      <div class="chips"><span class="chip off">bacon burner · off</span></div>
+      <div class="body">
+        <p>Turn the bacon burner off when it's done. Leave the bacon and its fat in the pan.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Done</b><span>Fat golden and translucent with crisp edges, lean still slightly chewy, not brittle. Foam down to a few small bubbles. A visible layer of clear fat in the pan. Fond amber to mid-brown.</span></div>
+          <div class="cue hot"><b>Too far</b><span>Fond turning coffee-dark or black, or bacon gone hard and dry. Off now. Dark fond will make the sauce bitter, so leave the darkest patches behind in step 7.</span></div>
+        </div>
+      </div>
+    </div></li>
+
+    <li><div class="step" data-step="6">
+      <div class="step-head"><input type="checkbox" id="s6"><label for="s6"><h3>Loosen the egg mix</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <p>About a minute before the pasta's done, scoop a mugful of pasta water. Whisk <strong>1 tablespoon</strong> of it into the egg-and-cheese paste, a little at a time. It should go from stiff paste to a thick, pourable cream.</p>
+      </div>
+      <details class="why"><summary>why</summary>
+        <p>A thinner sauce spreads over the pasta in a second or two, so no part of it sits on a hot spot long enough to scramble. The hot water also starts melting the cheese, and the starch in it helps the fat and egg stay emulsified instead of splitting.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="7">
+      <div class="step-head"><input type="checkbox" id="s7"><label for="s7"><h3>Cool the pan with pasta water, add the pasta</h3></label></div>
+      <div class="chips"><span class="chip off">both burners off</span></div>
+      <div class="body">
+        <p>Turn the pasta burner off. Pour about <strong>3 tablespoons</strong> of the reserved pasta water into the bacon pan. It will hiss and bubble. Scrape up the fond with the spatula as it does.</p>
+        <p>Then lift the pasta straight in with tongs (or drain through a sieve) and toss for about 30 seconds to coat it in the fat.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Ready</b><span>The pan has stopped sizzling. There's a little starchy liquid in the base, and steam is wisping off, not billowing.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>Still spitting or sizzling where the pasta touches the metal. Add another tablespoon of pasta water and toss. If it's still sizzling after that, tip everything into the warmed bowl and do step 8 there.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why water, not waiting</summary>
+        <p>A heavy pan holds much more heat than a thin one, so it cools slowly. Turning water into steam soaks up a lot of heat, so the splash pulls the pan down quickly and stops at about 100&nbsp;°C while the water lasts. The pasta then takes away more. Same trick as the bacon start, used in reverse. It also dissolves the fond, and the brine glue in it, into the sauce, so that flavour isn't wasted.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="8">
+      <div class="step-head"><input type="checkbox" id="s8"><label for="s8"><h3>Egg in, toss hard</h3></label></div>
+      <div class="chips"><span class="chip off">off the heat</span><span class="chip time">~1 min</span></div>
+      <div class="body">
+        <p>Pour the egg mix over the pasta and toss and stir vigorously, straight away. Add pasta water a tablespoon at a time until the sauce is right.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>Glossy, pale gold, coats every strand and flows slowly. It thickens a little as you toss.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>Grainy texture, small yellow curds, egg setting on the pan base. Tip into the warmed bowl immediately, add a tablespoon of pasta water, and toss hard. Small curds will smooth out.</span></div>
+          <div class="cue cool"><b>Too cool</b><span>Thin and runny with a raw-egg sheen, and not thickening after a minute of tossing. Back on the bacon burner at its lowest for 10 seconds while tossing, then off. Repeat until it thickens.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why keep moving</summary>
+        <p>The sauce is an emulsion of fat and water held together by the egg and the pasta starch. Heat thickens the yolk proteins into a sauce, but too much heat sets them into curds. Constant tossing spreads the heat evenly, so the whole sauce thickens at once instead of one patch overcooking.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="9">
+      <div class="step-head"><input type="checkbox" id="s9"><label for="s9"><h3>Serve immediately</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <p>Plate straight away. Finish with a little more cheese and a few grinds of pepper. It tightens as it cools, so eat it now.</p>
+      </div>
+    </div></li>
+
+  </ol>
+</section>
+
+<section class="rescue">
+  <h2>Rescue</h2>
+  <div class="card"><h3>Scrambled</h3><p>Into a warm bowl, a tablespoon of pasta water, toss hard. Small curds smooth out. Big ones won't, but it'll still taste good.</p></div>
+  <div class="card"><h3>Too thick or claggy</h3><p>More pasta water, a tablespoon at a time, tossing between each.</p></div>
+  <div class="card"><h3>Too thin</h3><p>Ten-second bursts on the lowest heat, tossing the whole time. Or a little more grated cheese.</p></div>
+  <div class="card"><h3>Bacon stuck to the pan</h3><p>A small splash of water at the edge, then scrape. It's the cure's sugary brine; water dissolves it.</p></div>
+</section>
+
+<section class="card">
+  <h2>Notes</h2>
+  <ul>
+    <li>Yolks only gives a richer, more golden sauce than whole eggs.</li>
+    <li>The yolks are only gently cooked. British Lion-stamped eggs are considered safe eaten runny for most people.</li>
+    <li>Dry-cured streaky bacon, if you find it, gives more fat and less brine, so less sticking.</li>
+    <li>Saved bacon fat keeps for weeks in the fridge as long as it was poured off clean, without fond in it.</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+(function () {
+  var KEY = "cookbook-carbonara-ticks-v1";
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  var state = load();
+  var boxes = document.querySelectorAll(".step-head input");
+  boxes.forEach(function (b) {
+    var card = b.closest(".step");
+    if (state[b.id]) { b.checked = true; card.classList.add("done"); }
+    b.addEventListener("change", function () {
+      state[b.id] = b.checked; card.classList.toggle("done", b.checked); save(state);
+    });
+  });
+  document.getElementById("reset").addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; b.closest(".step").classList.remove("done"); state[b.id] = false; });
+    save(state);
+  });
+})();
+</script>
+</body>
+</html>
