@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brad's Cookbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Index page: same visual system as the recipe pages. Each recipe card carries that recipe's own accent colour. */
+:root {
+  --bg: #f3f4f5;
+  --surface: #ffffff;
+  --fg: #1d2226;
+  --muted: #5c666e;
+  --line: #d9dde0;
+  --accent: #b3261e;
+  --flame: #2b5fd9; --flame-soft: #e6edfc;
+  --ok: #1f7a4a; --ok-soft: #e4f3ea;
+  --hot: #b3261e; --hot-soft: #fbe8e6;
+  --cool: #6b5ba8; --cool-soft: #eeebf8;
+  --chilli: #b3261e; --rice: #b8470f; --carbonara: #b8860b;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #f0675c; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --chilli: #f0675c; --rice: #f28a4e; --carbonara: #e8b84a;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #f0675c; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --chilli: #f0675c; --rice: #f28a4e; --carbonara: #e8b84a;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 4rem; display: grid; gap: 2.5rem; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2.3rem, 8vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
+h1 span { color: var(--accent); }
+h2 { font-size: 1.45rem; font-weight: 800; }
+h3 { font-size: 1.25rem; font-weight: 800; }
+p { margin: 0; }
+section { display: grid; gap: 1rem; }
+.intro { display: grid; gap: .8rem; margin-top: 1rem; max-width: 60ch; }
+.intro .lead { font-size: 1.2rem; font-weight: 700; }
+.intro p:not(.lead) { color: var(--muted); }
+
+/* recipe cards */
+.recipes { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+.recipe a { display: grid; gap: .35rem; padding: 1.1rem 1.2rem 1.1rem 1.3rem; background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--c); border-radius: 10px; color: inherit; text-decoration: none; transition: transform .15s, border-color .15s; }
+.recipe a:hover { transform: translateX(3px); border-color: var(--c); }
+.recipe a:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+.recipe h3 { color: var(--c); }
+.recipe .desc { color: var(--fg); }
+.recipe .meta { font-family: var(--font-mono); font-size: .78rem; color: var(--muted); letter-spacing: .02em; }
+.recipe.chilli { --c: var(--chilli); }
+.recipe.rice { --c: var(--rice); }
+.recipe.carbonara { --c: var(--carbonara); }
+
+/* how-to panel */
+.how { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: 1rem; }
+.how > div { display: grid; gap: .45rem; }
+.how b { font-family: var(--font-display); }
+.how p { color: var(--muted); font-size: .97rem; }
+.how p b { color: var(--fg); font-family: var(--font-body); }
+.chip { display: inline-flex; align-items: center; gap: .35rem; font-family: var(--font-mono); font-size: .78rem; color: var(--flame); background: var(--flame-soft); padding: .2rem .55rem; border-radius: 999px; width: fit-content; }
+.chip svg { width: .8rem; height: .8rem; fill: currentColor; }
+.cues { display: grid; gap: .35rem; }
+.cue { display: grid; grid-template-columns: 5.6rem 1fr; gap: .6rem; align-items: start; padding: .45rem .6rem; border-radius: 6px; font-size: .95rem; }
+.cue > span:first-child { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; padding-top: .2rem; font-weight: 500; }
+.cue.ok { background: var(--ok-soft); } .cue.ok > span:first-child { color: var(--ok); }
+.cue.hot { background: var(--hot-soft); } .cue.hot > span:first-child { color: var(--hot); }
+.cue.cool { background: var(--cool-soft); } .cue.cool > span:first-child { color: var(--cool); }
+@media (max-width: 420px) { .cue { grid-template-columns: 1fr; gap: .1rem; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Brad's <span>Cookbook</span></h1>
+    <div class="intro">
+      <p class="lead">I hate how vague recipes can be about temperature.</p>
+      <p>"Medium heat" means something different on every hob, and most people don't own a thermometer. So every heat step in these recipes tells you what to look, listen and smell for instead: the sound of the pan, how the bubbles behave, what colour things should turn. Each step also says why it works, so when something goes differently in your kitchen you can tell what to change.</p>
+    </div>
+  </header>
+
+  <section aria-labelledby="recipes">
+    <h2 id="recipes">Recipes</h2>
+    <ul class="recipes">
+      <li class="recipe chilli">
+        <a href="chilli-con-carne.html">
+          <h3>Chilli con Carne</h3>
+          <span class="desc">Mince browned hard, onions cooked in its fat, and a long, slow simmer.</span>
+          <span class="meta">Serves ~4 · about 2 hours, mostly simmering</span>
+        </a>
+      </li>
+      <li class="recipe rice">
+        <a href="mexican-rice.html">
+          <h3>Mexican Rice with Black Beans</h3>
+          <span class="desc">Rice toasted with fried spices, simmered in stock, with black beans steamed on top.</span>
+          <span class="meta">Serves 6 as a side · about 45 min</span>
+        </a>
+      </li>
+      <li class="recipe carbonara">
+        <a href="carbonara-for-one.html">
+          <h3>Carbonara for One</h3>
+          <span class="desc">Smoked streaky bacon, egg yolks, Pecorino and Parmigiano, with the pan cooled before the egg goes in.</span>
+          <span class="meta">Serves 1 · about 25 min</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="how">
+    <h2 id="how">How to use these pages</h2>
+    <div class="how">
+      <div>
+        <b>Cue rows</b>
+        <p>Every heat step has coloured rows telling you what you should see or hear, and what to do if it's off:</p>
+        <div class="cues" aria-label="Example cue rows">
+          <div class="cue ok"><span>Right</span><span>What it should look, sound or smell like. Carry on.</span></div>
+          <div class="cue hot"><span>Too hot</span><span>The signs it's running hot, and what to do about it.</span></div>
+          <div class="cue cool"><span>Too cool</span><span>The signs it needs more heat.</span></div>
+        </div>
+      </div>
+      <div>
+        <b>Burner chips</b>
+        <p><span class="chip"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0C6 3 9 4 9 7a4 3 0 0 1-8 0c0-2 2-3 2-5 1 1 1 2 2 2C5 3 5 1 5 0z"/></svg>Smallest burner · lowest</span></p>
+        <p>The blue chip on a step says which burner to use and roughly where to set it. It's a starting point: the cue rows have the final say.</p>
+      </div>
+      <div>
+        <b>Ticking off steps</b>
+        <p>Tick each step as you finish it, so you can see where you are at a glance. Ticks are saved <b>only in your own browser</b>, on that device, so they're still there if you close the page mid-cook. "Clear all ticks" resets them.</p>
+      </div>
+      <div>
+        <b>Measurements</b>
+        <p>Metric throughout. Spices are given by weight and by spoon; spoons are level standard measuring spoons (5 ml teaspoon, 15 ml tablespoon), not cutlery.</p>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
