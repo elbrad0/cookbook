@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluffy Scrambled Eggs</title>
+<meta name="description" content="Big, fluffy, buttery curds: air folded in with a fork, then cooked fast and hot, finished with hot sauce.">
+<link rel="icon" href="avatar.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="avatar.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Brad's Cookbook">
+<meta property="og:title" content="Fluffy Scrambled Eggs · Brad's Cookbook">
+<meta property="og:description" content="Big, fluffy, buttery curds: air folded in with a fork, then cooked fast and hot, finished with hot sauce.">
+<meta property="og:url" content="https://elbrad0.github.io/cookbook/fluffy-scrambled-eggs.html">
+<meta property="og:image" content="https://elbrad0.github.io/cookbook/avatar.jpg">
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Fluffy Scrambled Eggs. Same format as the chilli and carbonara pages:
+   tickable steps, burner chips, cue rows (right / too hot / too cool). */
+:root {
+  --bg: #f3f4f5;
+  --surface: #ffffff;
+  --fg: #1d2226;
+  --muted: #5c666e;
+  --line: #d9dde0;
+  --accent: #b8860b;      /* yolk */
+  --flame: #2b5fd9;       /* gas-flame blue: heat */
+  --flame-soft: #e6edfc;
+  --ok: #1f7a4a; --ok-soft: #e4f3ea;
+  --hot: #b3261e; --hot-soft: #fbe8e6;
+  --cool: #6b5ba8; --cool-soft: #eeebf8;
+  --note-soft: #fdf6e3;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #e8b84a; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --note-soft: #2c2716;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #e8b84a; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --note-soft: #2c2716;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 2rem 4rem; display: grid; gap: 2.25rem; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0.5rem 0; }
+.lede { color: var(--muted); font-size: 1.1rem; margin-top: 0.6rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.pill { font-family: var(--font-mono); font-size: 0.8rem; padding: 0.25rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; }
+.callout { background: var(--note-soft); border-left: 4px solid var(--accent); border-radius: 10px; padding: 0.9rem 1rem; }
+.callout strong { font-family: var(--font-display); }
+
+table.ing { width: 100%; border-collapse: collapse; }
+table.ing td { padding: 0.55rem 0.25rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.ing tr:last-child td { border-bottom: 0; }
+table.ing td.qty { font-family: var(--font-mono); font-size: 0.92rem; white-space: nowrap; color: var(--accent); width: 7.5rem; }
+.sub { color: var(--muted); font-size: 0.92rem; display: block; }
+
+.kit { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.kit div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 0.85rem; }
+.kit b { font-family: var(--font-display); }
+.kit .wide { grid-column: 1 / -1; }
+
+ol.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.1rem; counter-reset: step; }
+ol.steps > li { counter-increment: step; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem 1.1rem; }
+.step.done { opacity: 0.55; }
+.step-head { display: flex; align-items: flex-start; gap: 0.75rem; }
+.step-head input { width: 1.4rem; height: 1.4rem; margin-top: 0.15rem; accent-color: var(--ok); flex: none; cursor: pointer; }
+.step-head label { cursor: pointer; flex: 1; }
+.step-head h3::before { content: counter(step) ". "; color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0.25rem 2.15rem; }
+.chip { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.2rem 0.55rem; border-radius: 6px; background: var(--flame-soft); color: var(--flame); border: 1px solid color-mix(in srgb, var(--flame) 30%, transparent); }
+.chip.off { background: transparent; color: var(--muted); border-color: var(--line); }
+.chip.time { background: transparent; color: var(--muted); border-color: var(--line); }
+.body { margin-left: 2.15rem; }
+.body ul { margin: 0.4rem 0; padding-left: 1.2rem; }
+.body li { margin: 0.25rem 0; }
+
+.cues { display: grid; gap: 0.4rem; margin-top: 0.75rem; }
+.cue { border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.95rem; display: grid; grid-template-columns: 5.6rem 1fr; gap: 0.5rem; }
+.cue b { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; padding-top: 0.2rem; }
+.cue.ok { background: var(--ok-soft); } .cue.ok b { color: var(--ok); }
+.cue.hot { background: var(--hot-soft); } .cue.hot b { color: var(--hot); }
+.cue.cool { background: var(--cool-soft); } .cue.cool b { color: var(--cool); }
+@media (max-width: 30rem) { .cue { grid-template-columns: 1fr; gap: 0.1rem; } .chips, .body { margin-left: 0; } }
+
+details.why { margin-top: 0.75rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+details.why summary { cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+details.why p { font-size: 0.95rem; }
+
+.rescue { display: grid; gap: 0.75rem; }
+.rescue .card h3 { margin-bottom: 0.25rem; }
+
+button.reset { font-family: var(--font-mono); font-size: 0.8rem; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 0.35rem 0.7rem; cursor: pointer; }
+.back { display: inline-block; margin-bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.back:hover { color: var(--fg); }
+.back:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <a class="back" href="index.html">← All recipes</a>
+  <h1>Fluffy Scrambled Eggs</h1>
+  <p class="lede">Steak was the first thing I learned to cook, so when I got round to scrambled eggs I cooked them the same way: hot pan, fast. Along the way I picked up a couple of tricks, a better whisk and getting the butter sizzling before the eggs go in. Big fluffy curds, rich with butter, finished with a decent hot sauce.</p>
+  <div class="meta">
+    <span class="pill">1 serving</span>
+    <span class="pill">~5 min</span>
+  </div>
+</header>
+
+<section class="callout">
+  <strong>The one thing that matters most.</strong> This cooks in a couple of minutes, so have everything within reach before the egg goes in. Getting everything ready before you start helps me, but this one's quick enough that you can lay things out while the pan heats. Judge the heat by the butter, not the dial: it should sizzle the moment it touches the pan.
+</section>
+
+<section>
+  <h2>Ingredients</h2>
+  <div class="card">
+    <table class="ing">
+      <tr><td class="qty">2–3</td><td>Eggs</td></tr>
+      <tr><td class="qty">~20 g</td><td>Butter, a generous knob<span class="sub">It's hard to overdo. Too little is the usual mistake; extra makes little difference except more flavour.</span></td></tr>
+      <tr><td class="qty">to taste</td><td>Salt and black pepper, at the table</td></tr>
+      <tr><td class="qty">generous</td><td>Hot sauce<span class="sub">Cholula Original or Cholula Chipotle. Original is quite salty, which suits eggs, so taste before adding salt. Skip the Green Pepper one here; it works better with chicken.</span></td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Kit and heat</h2>
+  <div class="kit">
+    <div><b>Small non-stick pan</b>, about 20&nbsp;cm</div>
+    <div><b>Two spatulas</b>, or a spatula and a wooden spoon</div>
+    <div><b>Measuring jug or mixing bowl + fork</b> for whisking</div>
+    <div><b>Plate, knife and fork</b>, laid out before you start</div>
+    <div class="wide"><b>Why two tools.</b> One works, but this cooks fast, and a second tool lets you turn and break up the curds twice as quickly.</div>
+    <div class="wide"><b>On gas:</b> keep the flame inside the base of the pan. A small pan on a big burner wastes heat up the sides and scorches the handle.</div>
+    <div class="wide"><b>Electric, ceramic or induction:</b> the cues are the same. Go by the butter in step 3, not the setting.</div>
+  </div>
+</section>
+
+<section>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;">
+    <h2>Method</h2>
+    <button class="reset" id="reset" type="button">Clear ticks</button>
+  </div>
+  <ol class="steps">
+
+    <li><div class="step" data-step="1">
+      <div class="step-head"><input type="checkbox" id="s1"><label for="s1"><h3>Pan on, everything out</h3></label></div>
+      <div class="chips"><span class="chip">small pan · high</span><span class="chip time">~1–2 min</span></div>
+      <div class="body">
+        <p>Pan on high. While it heats:</p>
+        <ul>
+          <li>Rest the knob of butter on one of the spatulas, ready to tip in.</li>
+          <li>Lay out the plate, knife and fork, salt, pepper and hot sauce.</li>
+        </ul>
+        <div class="cues">
+          <div class="cue ok"><b>Ready</b><span>The air just above the pan looks wavy, and a flick of water sizzles straight off.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>Any smoke or sharp smell from the empty pan. Lift it off the heat for 30 seconds.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why not leave it heating</summary>
+        <p>Non-stick coatings start to break down at around 260&nbsp;°C, and an empty pan on high gets there fast because there's nothing in it to absorb the heat. Hot is the goal; smoking is past it.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="2">
+      <div class="step-head"><input type="checkbox" id="s2"><label for="s2"><h3>Crack and whisk in air</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span><span class="chip time">~30–45 sec</span></div>
+      <div class="body">
+        <p>Crack the eggs into the jug or bowl. Poke the yolks a few times with the fork to break them.</p>
+        <p>Tilt the container over until it's nearly on its side. The whole motion is a circle from the wrist, with your arm staying still. Move the fork down through the egg, then up and over the surface, so the egg folds over itself and traps air underneath. You don't need to go fast, though it helps.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>One even yellow colour, no streaks of white, and large bubbles sitting on top when you stop.</span></div>
+          <div class="cue cool"><b>Not yet</b><span>Streaks of clear white, or only small bubbles. Keep folding.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why fold, and why an even colour</summary>
+        <p>Lifting the fork up and over uses the egg's surface tension to wrap a sheet of egg around a pocket of air, which beats stirring round and round. An even colour matters too: streaks of white set before the rest and turn rubbery.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="3">
+      <div class="step-head"><input type="checkbox" id="s3"><label for="s3"><h3>Butter in, whisk again</h3></label></div>
+      <div class="chips"><span class="chip">small pan · high</span><span class="chip time">~20–30 sec</span></div>
+      <div class="body">
+        <p>Tip the butter into the pan. While it melts, give the eggs a second whisk the same way.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>The butter sizzles the moment it touches the pan, foams, and starts to smell slightly nutty.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>The butter turns brown within seconds, or smokes. Lift the pan off briefly; the eggs can still go in.</span></div>
+          <div class="cue cool"><b>Too cool</b><span>The butter just sits and melts quietly with no sizzle. Wait for the pan to catch up before the eggs go in.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>what the butter is telling you</summary>
+        <p>Butter is about 15% water. The sizzle and foam are that water boiling off, which tells you the pan is well above 100&nbsp;°C. Once it's gone, the milk solids start to toast, which is the nutty smell.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="4">
+      <div class="step-head"><input type="checkbox" id="s4"><label for="s4"><h3>Eggs in, keep them moving</h3></label></div>
+      <div class="chips"><span class="chip">small pan · high</span><span class="chip time">~1–2 min</span></div>
+      <div class="body">
+        <p>When the butter is about 80–90% melted, pour the eggs in. Keep them moving with both tools. They'll try to set into a rough omelette; break that up into big curds as you go.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>The edges set within seconds and the eggs puff up into big, soft curds.</span></div>
+          <div class="cue cool"><b>Too cool</b><span>The egg spreads out thin and sits wet without setting. Leave the heat on high and keep moving.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why fast and hot</summary>
+        <p>Two things puff the curds up: the air you folded in, and the egg's own water flashing to steam in the hot pan. Cooking fast sets the egg around both before they can escape, which is where the fluffy texture comes from. On low heat the air leaks out before anything sets, and you get small, dense curds.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="5">
+      <div class="step-head"><input type="checkbox" id="s5"><label for="s5"><h3>Off when they're nearly there</h3></label></div>
+      <div class="chips"><span class="chip off">off the heat</span></div>
+      <div class="body">
+        <p>I cook mine well done because of texture, but cook yours to taste. Either way, plate them a little before they reach the point you want, because they keep cooking in their own heat and on the plate.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Well done</b><span>The first little flecks of golden browning appear on some of the curds. Start plating now.</span></div>
+          <div class="cue cool"><b>Softer</b><span>Plate before any browning shows, while the curds still look glossy.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why the golden flecks</summary>
+        <p>Browning only starts once the water at a spot has boiled off, which lets that bit of egg get well above 100&nbsp;°C. So the flecks mean the surface is drying out. Their colour comes from the egg browning and from the butter's milk solids toasting onto the curds, which is why plenty of butter brings them on.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step" data-step="6">
+      <div class="step-head"><input type="checkbox" id="s6"><label for="s6"><h3>Serve</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <p>Salt, pepper and a generous amount of hot sauce. If you're using Cholula Original, add the hot sauce first and taste before salting.</p>
+      </div>
+    </div></li>
+
+  </ol>
+</section>
+
+<section class="rescue">
+  <h2>Rescue</h2>
+  <div class="card"><h3>Flat and dense</h3><p>The pan wasn't hot enough, or the eggs needed more folding. Next time wait for the butter to sizzle on contact, and whisk until the bubbles on top are large.</p></div>
+  <div class="card"><h3>Browning before they've set</h3><p>The pan's too hot for the amount of egg. Lift it off the heat for a few seconds and keep the curds moving.</p></div>
+  <div class="card"><h3>Sticking</h3><p>Not enough butter, or a worn pan. Use the full knob; it's part of what keeps the egg from sticking.</p></div>
+</section>
+
+<section class="card">
+  <h2>Notes</h2>
+  <ul>
+    <li>This is a non-stick job. Cast iron and stainless steel work but grip egg much more, especially if the cast iron isn't well seasoned.</li>
+    <li>2 eggs cooks fastest; 3 still fits a 20&nbsp;cm pan comfortably.</li>
+    <li>The same fold-and-cook-fast method makes omelettes puff up like a soufflé.</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+(function () {
+  var KEY = "cookbook-fluffy-scrambled-eggs-ticks-v1";
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  var state = load();
+  var boxes = document.querySelectorAll(".step-head input");
+  boxes.forEach(function (b) {
+    var card = b.closest(".step");
+    if (state[b.id]) { b.checked = true; card.classList.add("done"); }
+    b.addEventListener("change", function () {
+      state[b.id] = b.checked; card.classList.toggle("done", b.checked); save(state);
+    });
+  });
+  document.getElementById("reset").addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; b.closest(".step").classList.remove("done"); state[b.id] = false; });
+    save(state);
+  });
+})();
+</script>
+<script>window.goatcounter = { path: function () { return location.pathname.replace(/index\.html$/, ""); } };</script>
+<script data-goatcounter="https://elbrad0.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
