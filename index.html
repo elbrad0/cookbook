@@ -32,7 +32,7 @@
   --ok: #1f7a4a; --ok-soft: #e4f3ea;
   --hot: #b3261e; --hot-soft: #fbe8e6;
   --cool: #6b5ba8; --cool-soft: #eeebf8;
-  --chilli: #b3261e; --rice: #b8470f; --carbonara: #b8860b; --eggs: #2e7d6b;
+  --chilli: #b3261e; --rice: #b8470f; --carbonara: #b8860b; --eggs: #2e7d6b; --fritters: #4f7a2a;
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
@@ -41,13 +41,13 @@
   --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
   --accent: #f0675c; --flame: #7ea2ff; --flame-soft: #1f2a44;
   --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
-  --chilli: #f0675c; --rice: #f28a4e; --carbonara: #e8b84a; --eggs: #5fcfb4;
+  --chilli: #f0675c; --rice: #f28a4e; --carbonara: #e8b84a; --eggs: #5fcfb4; --fritters: #9fd16a;
   color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
   --accent: #f0675c; --flame: #7ea2ff; --flame-soft: #1f2a44;
   --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
-  --chilli: #f0675c; --rice: #f28a4e; --carbonara: #e8b84a; --eggs: #5fcfb4;
+  --chilli: #f0675c; --rice: #f28a4e; --carbonara: #e8b84a; --eggs: #5fcfb4; --fritters: #9fd16a;
   color-scheme: dark; }
 
 * { box-sizing: border-box; }
@@ -76,6 +76,7 @@ section { display: grid; gap: 1rem; }
 .recipe.rice { --c: var(--rice); }
 .recipe.carbonara { --c: var(--carbonara); }
 .recipe.eggs { --c: var(--eggs); }
+.recipe.fritters { --c: var(--fritters); }
 
 /* how-to panel */
 .how { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: grid; gap: 1rem; }
@@ -134,6 +135,13 @@ section { display: grid; gap: 1rem; }
           <h3>Fluffy Scrambled Eggs</h3>
           <span class="desc">Air folded in with a fork, cooked fast and hot in plenty of butter, finished with hot sauce.</span>
           <span class="meta">Serves 1 · about 5 min</span>
+        </a>
+      </li>
+      <li class="recipe fritters">
+        <a href="courgette-fritters.html">
+          <h3>Courgette Fritters</h3>
+          <span class="desc">Salted and squeezed courgette with Parmigiano and chilli, pressed thin and fried until golden.</span>
+          <span class="meta">Makes about 10 · about 45 min</span>
         </a>
       </li>
     </ul>

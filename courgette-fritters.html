@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courgette Fritters</title>
+<meta name="description" content="Thin, crisp courgette fritters with Parmigiano and a little chilli. Salt, squeeze, press thin, fry until golden.">
+<link rel="icon" href="avatar.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="avatar.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Brad's Cookbook">
+<meta property="og:title" content="Courgette Fritters · Brad's Cookbook">
+<meta property="og:description" content="Thin, crisp courgette fritters with Parmigiano and a little chilli. Salt, squeeze, press thin, fry until golden.">
+<meta property="og:url" content="https://elbrad0.github.io/cookbook/courgette-fritters.html">
+<meta property="og:image" content="https://elbrad0.github.io/cookbook/avatar.jpg">
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Courgette Fritters. Same format as the other recipe pages:
+   tickable steps, burner chips, cue rows (right / too hot / too cool). */
+:root {
+  --bg: #f3f4f5;
+  --surface: #ffffff;
+  --fg: #1d2226;
+  --muted: #5c666e;
+  --line: #d9dde0;
+  --accent: #4f7a2a;      /* courgette green */
+  --flame: #2b5fd9;       /* gas-flame blue: heat */
+  --flame-soft: #e6edfc;
+  --ok: #1f7a4a; --ok-soft: #e4f3ea;
+  --hot: #b3261e; --hot-soft: #fbe8e6;
+  --cool: #6b5ba8; --cool-soft: #eeebf8;
+  --note-soft: #eef5e6;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #9fd16a; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --note-soft: #1f2a17;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --surface: #1d2226; --fg: #e8ebed; --muted: #9aa4ab; --line: #333b41;
+  --accent: #9fd16a; --flame: #7ea2ff; --flame-soft: #1f2a44;
+  --ok: #5fcf8f; --ok-soft: #173326; --hot: #f0675c; --hot-soft: #3a1d1b; --cool: #b4a6f0; --cool-soft: #2a2540;
+  --note-soft: #1f2a17;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding-inline: 16px; padding-block: 2rem 4rem; display: grid; gap: 2.25rem; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0.5rem 0; }
+.lede { color: var(--muted); font-size: 1.1rem; margin-top: 0.6rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.pill { font-family: var(--font-mono); font-size: 0.8rem; padding: 0.25rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; }
+.card ul { margin: 0; padding-left: 1.2rem; }
+.card li { margin: 0.35rem 0; }
+.callout { background: var(--note-soft); border-left: 4px solid var(--accent); border-radius: 10px; padding: 0.9rem 1rem; }
+.callout strong { font-family: var(--font-display); }
+
+table.ing { width: 100%; border-collapse: collapse; }
+table.ing td { padding: 0.55rem 0.25rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.ing tr:last-child td { border-bottom: 0; }
+table.ing td.qty { font-family: var(--font-mono); font-size: 0.92rem; white-space: nowrap; color: var(--accent); width: 7.5rem; }
+.sub { color: var(--muted); font-size: 0.92rem; display: block; }
+
+.kit { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.kit div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 0.85rem; }
+.kit b { font-family: var(--font-display); }
+.kit .wide { grid-column: 1 / -1; }
+
+ol.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.1rem; counter-reset: step; }
+ol.steps > li { counter-increment: step; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem 1.1rem; }
+.step.done { opacity: 0.55; }
+.step-head { display: flex; align-items: flex-start; gap: 0.75rem; }
+.step-head input { width: 1.4rem; height: 1.4rem; margin-top: 0.15rem; accent-color: var(--ok); flex: none; cursor: pointer; }
+.step-head label { cursor: pointer; flex: 1; }
+.step-head h3::before { content: counter(step) ". "; color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0.25rem 2.15rem; }
+.chip { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.2rem 0.55rem; border-radius: 6px; background: var(--flame-soft); color: var(--flame); border: 1px solid color-mix(in srgb, var(--flame) 30%, transparent); }
+.chip.off { background: transparent; color: var(--muted); border-color: var(--line); }
+.chip.time { background: transparent; color: var(--muted); border-color: var(--line); }
+.body { margin-left: 2.15rem; }
+.body ul { margin: 0.4rem 0; padding-left: 1.2rem; }
+.body li { margin: 0.25rem 0; }
+
+.cues { display: grid; gap: 0.4rem; margin-top: 0.75rem; }
+.cue { border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.95rem; display: grid; grid-template-columns: 5.6rem 1fr; gap: 0.5rem; }
+.cue b { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; padding-top: 0.2rem; }
+.cue.ok { background: var(--ok-soft); } .cue.ok b { color: var(--ok); }
+.cue.hot { background: var(--hot-soft); } .cue.hot b { color: var(--hot); }
+.cue.cool { background: var(--cool-soft); } .cue.cool b { color: var(--cool); }
+@media (max-width: 30rem) { .cue { grid-template-columns: 1fr; gap: 0.1rem; } .chips, .body { margin-left: 0; } }
+
+details.why { margin-top: 0.75rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+details.why summary { cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+details.why p { font-size: 0.95rem; }
+
+.rescue { display: grid; gap: 0.75rem; }
+.rescue .card h3 { margin-bottom: 0.25rem; }
+
+button.reset { font-family: var(--font-mono); font-size: 0.8rem; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 0.35rem 0.7rem; cursor: pointer; }
+.back { display: inline-block; margin-bottom: 1rem; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.back:hover { color: var(--fg); }
+.back:focus-visible { outline: 3px solid var(--flame); outline-offset: 2px; }
+.credit { color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header>
+  <a class="back" href="index.html">← All recipes</a>
+  <h1>Courgette Fritters</h1>
+  <p class="lede">Crisp outside, soft inside, with Parmigiano and a little chilli heat. The whole recipe comes down to getting water out of the courgette, then pressing the fritters thin so the middle cooks through by the time the outside is golden.</p>
+  <div class="meta">
+    <span class="pill">Makes about 10</span>
+    <span class="pill">~25 min prep</span>
+    <span class="pill">~20 min frying, in batches</span>
+  </div>
+</header>
+
+<section class="callout">
+  <strong>The one thing that matters most.</strong> Courgette is mostly water. Any water left in the mix turns to steam in the pan, which keeps the fritters soft and pale and stops them crisping. Salt draws the water out, squeezing removes it, and the flour and breadcrumbs soak up the rest. Squeeze harder than feels necessary.
+</section>
+
+<section>
+  <h2>Ingredients</h2>
+  <div class="card">
+    <table class="ing">
+      <tr><td class="qty">500 g</td><td>Courgettes, firm<span class="sub">About 2–3 medium. Soft, older courgettes hold more water and squeeze out mushy.</span></td></tr>
+      <tr><td class="qty">½ tsp · 3 g</td><td>Salt, for drawing out water</td></tr>
+      <tr><td class="qty">1½ tbsp · 12 g</td><td>Plain flour</td></tr>
+      <tr><td class="qty">1½ tbsp · 8 g</td><td>Dried breadcrumbs<span class="sub">Shop-bought, or homemade (see Notes).</span></td></tr>
+      <tr><td class="qty">3 tbsp · 15 g</td><td>Parmigiano Reggiano, finely grated</td></tr>
+      <tr><td class="qty">¼ tsp · 0.5 g</td><td>Chilli flakes<span class="sub">This is mild. Add more if you like heat.</span></td></tr>
+      <tr><td class="qty">¼ tsp heaped · 1 g</td><td>Garlic powder or granules</td></tr>
+      <tr><td class="qty">small pinch</td><td>Salt, for the mixture<span class="sub">Keep it small: some of the first salt stays in the courgette.</span></td></tr>
+      <tr><td class="qty">1</td><td>Medium egg</td></tr>
+      <tr><td class="qty">~1 tbsp a batch</td><td>Olive oil, for frying<span class="sub">Extra virgin is fine at this heat. Refined avocado oil works too.</span></td></tr>
+    </table>
+    <p class="sub">Spoon amounts are the main measure. Weights are approximate, because flour, crumbs and grated cheese pack differently.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Kit and heat</h2>
+  <div class="kit">
+    <div><b>Box grater</b>, coarse side</div>
+    <div><b>Colander</b> over a bowl or the sink</div>
+    <div><b>Nut milk bag or muslin</b> for squeezing</div>
+    <div><b>Large mixing bowl</b></div>
+    <div><b>Non-stick frying pan</b> and a fish slice</div>
+    <div><b>Plate lined with kitchen paper</b></div>
+    <div class="wide"><b>Why not a tea towel.</b> It works, but washed towels can carry detergent and fabric-softener perfume into the courgette, which you press hard against wet fabric. A nylon nut milk bag rinses clean and holds nothing. Boil a new one in plain water for a few minutes before its first use.</div>
+    <div class="wide"><b>On gas:</b> use a small or medium burner and keep the flame under the base of the pan. If your pan is wider than the flame, the middle is the hot spot, so keep the fritters there or swap them round.</div>
+    <div class="wide"><b>Electric, ceramic or induction:</b> the cues are the same. Go by the oil in step 5, not the setting.</div>
+  </div>
+</section>
+
+<section>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;">
+    <h2>Method</h2>
+    <button class="reset" id="reset" type="button">Clear ticks</button>
+  </div>
+  <ol class="steps">
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s1"><label for="s1"><h3>Measure out the dry ingredients</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <p>Put the flour, breadcrumbs, Parmigiano, chilli flakes, garlic and the small pinch of salt in the large bowl. Stir them together. Leave the egg until step 4.</p>
+        <p>Doing this first means nothing needs measuring once the courgette is ready.</p>
+      </div>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s2"><label for="s2"><h3>Grate and salt the courgettes</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span><span class="chip time">10 min resting</span></div>
+      <div class="body">
+        <p>Trim the ends; there's no need to peel. Grate on the coarse side straight into the colander. Sprinkle over the ½ tsp of salt, toss with your hands, and leave for 10 minutes.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>Water beading on the shreds and dripping out of the colander.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why salt first</summary>
+        <p>Salt on the outside of the courgette's cells pulls water out of them by osmosis. The squeeze in the next step then gets far more out than it would from unsalted courgette.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s3"><label for="s3"><h3>Squeeze in batches</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span><span class="chip time">~5 min</span></div>
+      <div class="body">
+        <p>Put two or three handfuls in the bag at a time, not the whole lot. Over the sink, gather the top closed and twist it round and round so it tightens on the courgette. Tip each squeezed batch into the bowl of dry ingredients.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>Only the odd drip comes out however hard you twist, and the courgette feels damp rather than wet.</span></div>
+          <div class="cue cool"><b>Not yet</b><span>A steady trickle still comes out. Keep twisting.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>why batches</summary>
+        <p>With the whole lot in the bag, twisting compresses the outside and leaves a wet core in the middle. A smaller amount gets squeezed evenly all the way through.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s4"><label for="s4"><h3>Add the egg and mix</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <p>Crack in the egg and mix well with your hands, so every strand is coated.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>A heaped spoonful pressed together holds its shape.</span></div>
+          <div class="cue cool"><b>Too wet</b><span>It slumps or looks wet. Mix in another ½ tbsp of flour.</span></div>
+        </div>
+      </div>
+      <details class="why"><summary>what each part does</summary>
+        <p>The egg sets in the heat and glues the strands together. The flour and breadcrumbs absorb any water the squeeze missed. The Parmigiano adds salt and browns well.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s5"><label for="s5"><h3>Heat the oil</h3></label></div>
+      <div class="chips"><span class="chip">small–medium burner · low-ish</span><span class="chip time">a few minutes</span></div>
+      <div class="body">
+        <p>Put about 1 tbsp of oil in the cold pan, <em>then</em> light the burner, and tilt the pan to coat the base. Let the oil come up gently so you see each stage arrive.</p>
+        <div class="cues">
+          <div class="cue cool"><b>Cold</b><span>Thick; sits in a pool when you tilt the pan.</span></div>
+          <div class="cue ok"><b>Ready</b><span>Thinner, runs freely, and the surface shimmers with faint wavy ripples, like heat haze over a road. A pinch of mixture dropped in gives a steady, lively sizzle with small bubbles round it.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>Thin wisps of smoke, and a sharp, acrid smell in place of a grassy, peppery one. A test pinch crackles, spits and browns in seconds. Lift the pan off for 30 seconds and turn the flame down.</span></div>
+        </div>
+        <p>If there's no shimmer and no sizzle after about 5 minutes, turn the heat up a notch.</p>
+      </div>
+      <details class="why"><summary>why stop at the shimmer</summary>
+        <p>Extra virgin olive oil starts to smoke at about 190–210&nbsp;°C. Fritters fry well at about 160–180&nbsp;°C, which is the shimmer stage, so there's a safe margin as long as you stop there. Smoke means the oil is breaking down and will taste bitter. Putting the oil in before the heat means you watch it climb instead of overshooting in an empty pan.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s6"><label for="s6"><h3>Fry thin, in batches</h3></label></div>
+      <div class="chips"><span class="chip">same burner · keep the sizzle steady</span><span class="chip time">~2–4 min a side</span></div>
+      <div class="body">
+        <p>Scoop about 2 heaped tablespoons per fritter. Put 2 or 3 in the pan with space between them, and press each one <strong>thin, about 5&nbsp;mm</strong>, with the back of the spoon or the fish slice. Cook until the underside is golden and crisp, then flip once and do the other side.</p>
+        <div class="cues">
+          <div class="cue ok"><b>Right</b><span>A constant, steady sizzle, the underside golden and crisp, and the shreds round the edge going lacy and brown.</span></div>
+          <div class="cue hot"><b>Too hot</b><span>Dark brown in under a minute while the middle is still raw, or smoke. Lift the pan off and turn the flame down.</span></div>
+          <div class="cue cool"><b>Too cool</b><span>The sizzle fades, or still pale after 4 minutes. They'll soak up oil and go greasy. Turn the heat up a notch.</span></div>
+        </div>
+        <p><strong>Check the first batch:</strong> break one open. The egg in the middle should look opaque and set, with no glossy, wet patches. If it's still soft, press the next batch thinner or give them a little longer.</p>
+      </div>
+      <details class="why"><summary>why thin</summary>
+        <p>Browning happens at the surface, but the egg has to set in the middle, and heat reaches the middle by conduction. The time that takes rises with the square of the thickness, so a fritter half as thick sets in about a quarter of the time. At 1&nbsp;cm the outside can turn golden while the centre is still soft and eggy. At 5&nbsp;mm, golden on the outside and set in the middle arrive together.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s7"><label for="s7"><h3>Drain, wipe and repeat</h3></label></div>
+      <div class="chips"><span class="chip">same burner</span></div>
+      <div class="body">
+        <p>Move the fritters to the lined plate. Wipe out stray bits of courgette or cheese with a folded sheet of kitchen paper (the pan is hot), add a fresh tablespoon of oil, wait for the shimmer again, and fry the next batch.</p>
+      </div>
+      <details class="why"><summary>why wipe</summary>
+        <p>Leftover shreds and cheese burn and smoke at normal frying heat even when the oil itself is fine, and they make the next batch taste bitter.</p>
+      </details>
+    </div></li>
+
+    <li><div class="step">
+      <div class="step-head"><input type="checkbox" id="s8"><label for="s8"><h3>Serve</h3></label></div>
+      <div class="chips"><span class="chip off">no heat</span></div>
+      <div class="body">
+        <p>Eat them hot with a dipping sauce. I stir red pesto with a little olive oil and a squeeze of lemon, loose enough to dip into. I don't measure it; a heaped tablespoon of pesto to a tablespoon of oil and a good squeeze of lemon is a starting point.</p>
+        <p>Also good: a squeeze of lemon and more Parmigiano grated over.</p>
+      </div>
+    </div></li>
+
+  </ol>
+</section>
+
+<section class="rescue">
+  <h2>Rescue</h2>
+  <div class="card"><h3>Falling apart in the pan</h3><p>The mix is too wet. Squeeze the rest of the batch again, or mix in another ½ tbsp of flour before the next batch.</p></div>
+  <div class="card"><h3>Golden outside, soft and eggy inside</h3><p>Too thick. Press the next ones thinner rather than turning the heat up, which only browns the outside faster.</p></div>
+  <div class="card"><h3>Greasy and pale</h3><p>The oil wasn't hot enough when they went in. Wait for the shimmer and the test-pinch sizzle before each batch.</p></div>
+</section>
+
+<section class="card">
+  <h2>Notes</h2>
+  <ul>
+    <li><b>Homemade breadcrumbs:</b> grate stale bread straight from the freezer on the box grater; frozen bread shreds cleanly. Toast the crumbs in a dry pan on low, stirring, for about 5 minutes, until dry and sandy and just starting to colour. Fresh crumbs still hold water, and here their job is to soak it up.</li>
+    <li><b>Filling:</b> they're more filling than they look. A full batch made a big lunch for one.</li>
+    <li><b>Freezing:</b> cool completely and freeze flat in a bag. Reheat from frozen in a single layer in a hot oven until crisp again, about 20–25 minutes.</li>
+  </ul>
+  <p class="credit">Adapted from Sam the Cooking Guy's zucchini fritters.</p>
+</section>
+
+</main>
+
+<script>
+(function () {
+  var KEY = "cookbook-courgette-fritters-ticks-v1";
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  var state = load();
+  var boxes = document.querySelectorAll(".step-head input");
+  boxes.forEach(function (b) {
+    var card = b.closest(".step");
+    if (state[b.id]) { b.checked = true; card.classList.add("done"); }
+    b.addEventListener("change", function () {
+      state[b.id] = b.checked; card.classList.toggle("done", b.checked); save(state);
+    });
+  });
+  document.getElementById("reset").addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; b.closest(".step").classList.remove("done"); state[b.id] = false; });
+    save(state);
+  });
+})();
+</script>
+<script>window.goatcounter = { path: function () { return location.pathname.replace(/index\.html$/, ""); } };</script>
+<script data-goatcounter="https://elbrad0.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
